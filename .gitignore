@@ -1,0 +1,10 @@
+## visual studio solution file
+/Backup_CLI.sln
+/Backup_CLI/*.vcxproj
+/Backup_CLI/*.filters
+/Backup_CLI/*.user
+
+## visual studio solution folder
+/.vs
+/Debug
+/Backup_CLI/Debug
