@@ -10,12 +10,13 @@ namespace bfs = boost::filesystem;
 
 int main(int argc, char* argv[])
 {
-	//bfs::path root(std::string("c:/A"));
-	//bfs::path dest(std::string("d:/backup"));
-
 	//backup::core::sync("c:/A","d:/backup");
-	//backup::core::Sync sync;
-	//sync.execute(root, dest);
+
+	bfs::path root(std::string("c:/A"));
+	bfs::path dest(std::string("d:/backup"));
+
+	backup::core::Sync sync;
+	sync.execute(root, dest);
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
