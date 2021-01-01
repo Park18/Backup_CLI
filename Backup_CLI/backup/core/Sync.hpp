@@ -33,11 +33,11 @@ private:
 private:
 	void init(bfs::path root);
 	void copy_directory_group(bfs::path destination);
-	void copy_file_group(bfs::path& destination);
-	void sync(bfs::path& destination);
+	void copy_file_group(bfs::path destination);
+	void sync(bfs::path destination);
 
 public:
-	void execute(bfs::path& root, bfs::path& destination);
+	void execute(bfs::path root, bfs::path destination);
 };
 } // !namespace core
 } // !namespace backup	

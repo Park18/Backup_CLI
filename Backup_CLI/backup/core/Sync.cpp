@@ -65,22 +65,22 @@ void backup::core::Sync::copy_directory_group(bfs::path destination)
 {
 	if (!this->directoriy_group.empty())
 		for (auto directory : directoriy_group)
-			int i;
-			//execute(directory, destination);
+			execute(directory, destination);
+		
 }
 
-void backup::core::Sync::copy_file_group(bfs::path& destination)
+void backup::core::Sync::copy_file_group(bfs::path destination)
 {
 
 	if (!this->file_group.empty())
 		for (auto file : this->file_group)
 		{
-			bfs::path dest = destination.append(file.filename()).generic_path();
+			bfs::path dest = destination.append(file.filename().string()).generic_path();
 			bfs::copy_file(file, dest, bfs::copy_option::overwrite_if_exists);
 		}
 }
 
-void backup::core::Sync::sync(bfs::path& destination)
+void backup::core::Sync::sync(bfs::path destination)
 {
 	// 폴더 복사 후 파일 복사, 파일 복사시 폴더가 존재하지 않으면 에러 발생
 	copy_directory_group(destination);
@@ -88,16 +88,18 @@ void backup::core::Sync::sync(bfs::path& destination)
 	copy_file_group(destination);
 }
 
-void backup::core::Sync::execute(bfs::path& root, bfs::path& destination)
+void backup::core::Sync::execute(bfs::path root, bfs::path destination)
 {
 	// 경로 "dest/root.filename()"이 없으면 root.filename() 디렉토리 생성
 	// 예) root: C:/Root/A, dest: D:/Backup -> D:/Backup/A
-	bfs::path dest = destination.append(root.filename()).generic_path();
+	bfs::path dest = destination.append(root.filename().string()).generic_path();
 	if (!bfs::exists(dest))
 		bfs::create_directory(dest);
 
 	// 복사해야 할 목록 초기화
-	init(root);
+	init(root.generic_path());
 
-	sync(destination);
+	// TODO 재귀함수로 호출하면서 클래스멤버 group에 쌓이기만 함
+	// 스택구조를 활용을 하지 못함
+	sync(destination.generic_path());
 }
