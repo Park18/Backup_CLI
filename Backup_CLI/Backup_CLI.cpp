@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	//backup::core::sync("c:/A","d:/backup");
 
 	bfs::path root(std::string("c:/A"));
-	bfs::path dest(std::string("d:/backup"));
+	bfs::path dest(std::string("c:/backup"));
 
 	backup::core::Sync sync;
 	sync.execute(root, dest);
