@@ -7,9 +7,6 @@ backup::core::Path_Manager::Path_Manager(bfs::path execute_path)
 	// TODO 경로 어떻게 할지 정확히 파악 후 설정
 	this->management_file = execute_path.append(MANAGEMENT_FILE).generic_path();
 
-	// TEST 용
-	cout << this->management_file.string() << endl;
-
 	file_to_list();
 }
 
@@ -40,6 +37,7 @@ bool backup::core::Path_Manager::management_file_empty()
 void backup::core::Path_Manager::push_back(bfs::path root, bfs::path destination)
 {
 	this->path_list.push_back(root.generic_string() + "-" + destination.generic_string());
+
 	list_to_file();
 }
 
@@ -47,6 +45,7 @@ void backup::core::Path_Manager::insert(bfs::path root, bfs::path destination, i
 {
 	this->path_list.insert(this->path_list.begin() + index, 
 		root.generic_string() + "-" + destination.generic_string());
+
 	list_to_file();
 }
 
@@ -67,6 +66,7 @@ void backup::core::Path_Manager::erase(int index)
 void backup::core::Path_Manager::clear()
 {
 	this->path_list.clear();
+
 	list_to_file();
 }
 

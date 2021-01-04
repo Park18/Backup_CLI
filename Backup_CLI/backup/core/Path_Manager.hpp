@@ -6,9 +6,9 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/path.hpp>
 
 #define MANAGEMENT_FILE "dir_path/path.txt"
+
 namespace bfs = boost::filesystem;
 
 namespace backup
@@ -38,7 +38,7 @@ public:
 	void create_management_file();
 	bool management_file_empty();
 
-	// path list
+	// path list(vector)
 	void push_back(bfs::path root, bfs::path destination);
 	void insert(bfs::path root, bfs::path destination, int index);
 	void erase(int index);
