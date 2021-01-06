@@ -12,24 +12,20 @@ namespace instruction
 class Abstract_Checker
 {
 protected:
-	Command_Line command_line; // 명령어
+	Command_Line command_line;
 	WORK work;
 
 public:
 	Abstract_Checker(Command_Line command_line) :command_line(command_line) {};
 
 	bool check_instruction();
-
-	// add, delete, print 등의 핵심 명령어
-	// TODO 메소드 이름 최선인지...
-	bool has_work();
-
-	bool has_option(std::string option);
-
-	// 옳바른 옵션이면 true, 틀린 옵션이면 false
+	
+	// part of check_instruction()
+	// right: true, wrong: false
+	bool check_work();
 	virtual bool check_option() = 0;
-
-	bool check_path(bfs::path directory);
+	bool has_option(std::string option);
+	bool check_path(std::string path_option);
 };
 
 class Add_Checker : public Abstract_Checker
