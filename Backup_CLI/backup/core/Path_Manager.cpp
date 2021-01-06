@@ -4,7 +4,6 @@ using namespace std;
 
 backup::core::Path_Manager::Path_Manager(bfs::path execute_path)
 {
-	// TODO 경로 어떻게 할지 정확히 파악 후 설정
 	this->management_file = execute_path.append(MANAGEMENT_FILE).generic_path();
 
 	file_to_list();
