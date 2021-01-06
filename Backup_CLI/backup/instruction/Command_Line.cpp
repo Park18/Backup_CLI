@@ -2,9 +2,9 @@
 
 using namespace std;
 
-backup::instruction::Command_Line::Command_Line(std::string str_command_line)
+backup::instruction::Command_Line::Command_Line(std::string command_line)
 {
-	set_command_line(str_command_line);
+	set_command_line(command_line);
 }
 
 backup::instruction::Command_Line::Command_Line(int argc, char* argv[])
@@ -12,7 +12,7 @@ backup::instruction::Command_Line::Command_Line(int argc, char* argv[])
 	set_command_line(argc, argv);
 }
 
-void backup::instruction::Command_Line::set_command_line(string str_command_line)
+void backup::instruction::Command_Line::set_command_line(std::string command_line)
 {
 	// 토큰 분리 방법
 	// command_line을 구획 구분자로 분류하여 token을 생성한다.
@@ -21,8 +21,8 @@ void backup::instruction::Command_Line::set_command_line(string str_command_line
 	// 3. boost tokenizer -> boost 라이브러리 에러
 	// https://psychoria.tistory.com/666
 
-	string token;
-	stringstream ss(str_command_line);
+	std::string token;
+	stringstream ss(command_line);
 
 	while (getline(ss, token, DELIMITER))
 		this->command_line.push_back(token);
@@ -39,11 +39,11 @@ std::vector<std::string> backup::instruction::Command_Line::get_command_line()
 	return this->command_line;
 }
 
-std::string backup::instruction::Command_Line::get_str_command_line()
+std::string backup::instruction::Command_Line::string()
 {
-	string str_command_line;
+	std::string str_command_line;
 
-	for (string part_of_context : this->command_line)
+	for (std::string part_of_context : this->command_line)
 		str_command_line.append(part_of_context + " ");
 
 	return str_command_line;
@@ -69,23 +69,23 @@ backup::instruction::WORK backup::instruction::Command_Line::get_work()
 
 bfs::path backup::instruction::Command_Line::get_root()
 {
-	auto option_root_index = find(this->command_line.begin(), this->command_line.end(), OPTION_ROOT);
+	auto root = find(this->command_line.begin(), this->command_line.end(), OPTION_ROOT) + 1;
 
-	return bfs::path(*(option_root_index + 1));
+	return bfs::path(*root);
 }
 
 bfs::path backup::instruction::Command_Line::get_destination()
 {
-	auto option_destination_index = find(this->command_line.begin(), this->command_line.end(), OPTION_DESTINATION);
+	auto destination = find(this->command_line.begin(), this->command_line.end(), OPTION_DESTINATION) + 1;
 
-	return bfs::path(*(option_destination_index + 1));
+	return bfs::path(*destination);
 }
 
 int backup::instruction::Command_Line::get_pos()
 {
-	auto option_pos_index = find(this->command_line.begin(), this->command_line.end(), OPTION_POS);
+	auto pos = find(this->command_line.begin(), this->command_line.end(), OPTION_POS) + 1;
 
-	if (option_pos_index == this->command_line.end())
+	if (pos == this->command_line.end())
 		return -1;
 
 	// string to int
@@ -93,7 +93,7 @@ int backup::instruction::Command_Line::get_pos()
 	// 2. std::stoi
 	// 3. boost::lexical_cast<"int or double">
 	// https://psychoria.tistory.com/709
-	return boost::lexical_cast<int>(*(option_pos_index + 1));
+	return boost::lexical_cast<int>(*pos);
 }
 
 std::vector<std::string>::iterator backup::instruction::Command_Line::begin()

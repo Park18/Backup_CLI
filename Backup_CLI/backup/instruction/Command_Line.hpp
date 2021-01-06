@@ -37,7 +37,7 @@ static enum WORK
 	UNKNOWN
 };
 
-
+// define command line option
 #define OPTION_ALL "-A"
 #define OPTION_ROOT "-R"
 #define OPTION_DESTINATION "-D"
@@ -51,21 +51,23 @@ private:
 	std::vector<std::string> command_line; // 명령문은 단어 단위로 나눈 벡터
 
 public:
-	Command_Line(std::string str_command_line);
+	Command_Line(std::string command_line);
 	Command_Line(int argc, char* argv[]);
 
-	void set_command_line(std::string str_command_line);
+	void set_command_line(std::string command_line);
 	void set_command_line(int argc, char* argv[]);
 
 	std::vector<std::string> get_command_line();
 	// TODO string 반환이 필요한가?
-	std::string get_str_command_line();
+	std::string string();
 
+	// comand line token
 	WORK get_work();
 	bfs::path get_root();
 	bfs::path get_destination();
 	int get_pos();
 
+	// command line(vector)
 	std::vector<std::string>::iterator begin();
 	std::vector<std::string>::iterator end();
 	int size();
