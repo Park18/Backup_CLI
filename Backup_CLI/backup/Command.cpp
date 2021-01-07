@@ -3,14 +3,7 @@
 using namespace std;	
 using namespace backup::core;
 
-backup::Abstract_Command::Abstract_Command(char* running_path)
-{
-	this->running_path = running_path;
-	this->running_path = this->running_path.parent_path();
-	this->running_path = this->running_path.generic_path();
-}
-
-backup::Add_Command::Add_Command(char* running_path, bfs::path source, bfs::path destination) : Abstract_Command(running_path)
+backup::Add_Command::Add_Command(bfs::path running_path, bfs::path source, bfs::path destination) : Abstract_Command(running_path)
 {
 	this->root = source;
 	this->destination = destination;
