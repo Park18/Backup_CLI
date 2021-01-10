@@ -39,16 +39,6 @@ std::vector<std::string> backup::instruction::Command_Line::get_command_line()
 	return this->command_line;
 }
 
-std::string backup::instruction::Command_Line::string()
-{
-	std::string str_command_line;
-
-	for (std::string part_of_context : this->command_line)
-		str_command_line.append(part_of_context + " ");
-
-	return str_command_line;
-}
-
 backup::instruction::WORK backup::instruction::Command_Line::get_work()
 {
 	if (this->command_line.at(0) == STR_WORK_GROUP[WORK::ADD])
@@ -83,7 +73,10 @@ bfs::path backup::instruction::Command_Line::get_destination()
 
 int backup::instruction::Command_Line::get_pos()
 {
-	auto pos = find(this->command_line.begin(), this->command_line.end(), OPTION_POS) + 1;
+	// 옵션 P를 찾지 못했을 때 -1을 반환해야 하는데
+	// find() + 1 로 계산할 경우 에러가 발생함
+	// 옵션 A를 찾는 함수를 제작 안했기 때문에 이렇게 해결함
+	auto pos = find(this->command_line.begin(), this->command_line.end(), OPTION_POS);
 
 	if (pos == this->command_line.end())
 		return -1;
@@ -93,7 +86,7 @@ int backup::instruction::Command_Line::get_pos()
 	// 2. std::stoi
 	// 3. boost::lexical_cast<"int or double">
 	// https://psychoria.tistory.com/709
-	return boost::lexical_cast<int>(*pos);
+	return boost::lexical_cast<int>(*(pos + 1));
 }
 
 std::vector<std::string>::iterator backup::instruction::Command_Line::begin()

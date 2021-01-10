@@ -58,8 +58,6 @@ public:
 	void set_command_line(int argc, char* argv[]);
 
 	std::vector<std::string> get_command_line();
-	// TODO string 반환이 필요한가?
-	std::string string();
 
 	// comand line token
 	WORK get_work();
