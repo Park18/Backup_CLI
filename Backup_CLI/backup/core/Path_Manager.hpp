@@ -29,7 +29,7 @@ private:
 public:
 	Path_Manager(bfs::path execute_path);
 
-	// TODO 왜 만들었는지 정확히 기억이 안남, 확인할 것
+	// Command 실행시 경로 관리 파일의 존재 확인 위해 필요
 	bfs::path get_management_file();
 
 	Path_List get_path_list();

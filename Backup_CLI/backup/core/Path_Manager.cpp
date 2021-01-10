@@ -79,15 +79,6 @@ void backup::core::Path_Manager::file_to_list()
 {
 	bfs::ifstream read_file(this->management_file);
 
-	//for (int pos = 0; !read_file.eof(); pos++)
-	//{
-	//	string path_management_data;
-	//	getline(read_file, path_management_data);
-	//
-	//	if (!path_management_data.empty())
-	//		this->path_list.push_back(path_management_data);
-	//}
-
 	// TODO 파일이 비었을 때 무한으로 반복되는 현상
 	string path_management_data;
 	while (getline(read_file, path_management_data))
