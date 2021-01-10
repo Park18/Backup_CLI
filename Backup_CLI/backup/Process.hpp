@@ -10,33 +10,26 @@
  */
 namespace backup
 {
+
 class Process
 {
 private:
 	backup::instruction::Command_Line* command_line;
 	backup::instruction::Abstract_Checker* checker;
 	backup::Abstract_Command* command;
-	char* main_argv_zero;
+	bfs::path running_path;
+
+private:
+	bool check_instruction();
+
+	void command_switch();
+
 
 public:
 	Process(int argc, char* argv[]);
+	~Process();
 
-	/**
-	 * 명령어 처리 메소드
-	 */
-	void input_commnad();
-
-	bool check_command_line();
-
-	/**
-	 * @brief 명령어에 따라 Command* command의 속성을 바꾸는 메소드
-	 */
-	void command_switch();
-
-	/**
-	 * @brief 프로그램 실행 메소드
-	 */
-	void run();
+	void run(int argc);
 };
 
 } // !namespace backup

@@ -6,46 +6,45 @@ using namespace backup::instruction;
 backup::Process::Process(int argc, char* argv[])
 {
 	this->command_line = new Command_Line(argc, argv);
-	main_argv_zero = argv[0];
+	this->running_path = bfs::path(argv[0]).parent_path().generic_path();
 }
 
-void backup::Process::input_commnad()
+backup::Process::~Process()
 {
-	// TODO 버퍼 초기화 넣으면 명령어 먹통되는 버그
-	//cin.ignore();
-
-	string command_line;
-	getline(cin, command_line);
-
-	this->command_line->set_command_line(command_line);
+	delete this->command_line;
+	delete this->command;
+	delete this->checker;
 }
 
-bool backup::Process::check_command_line()
+bool backup::Process::check_instruction()
 {
+	if (this->command_line->size() == 0)
+		return false;
+
 	switch (this->command_line->get_work())
 	{
 	case instruction::WORK::ADD:
-		this->checker = new Add_Checker(this->command_line->get_str_command_line());
+		this->checker = new Add_Checker(*this->command_line);
 		break;
 	
 	case instruction::WORK::DELETE:
-		this->checker = new Delete_Checker(this->command_line->get_str_command_line());
+		this->checker = new Delete_Checker(*this->command_line);
 		break;
 	
 	case instruction::WORK::PRINT:
-		this->checker = new Print_Checker(this->command_line->get_str_command_line());
+		this->checker = new Print_Checker(*this->command_line);
 		break;
 	
 	case instruction::WORK::SYNC:
-		this->checker = new Sync_Checker(this->command_line->get_str_command_line());
+		this->checker = new Sync_Checker(*this->command_line);
 		break;
 	
 	case instruction::WORK::HELP:
-		this->checker = new Help_Checker(this->command_line->get_str_command_line());
+		this->checker = new Help_Checker(*this->command_line);
 		break;
 	
 	case instruction::WORK::EXIT:
-		this->checker = new Exit_Checker(this->command_line->get_str_command_line());
+		this->checker = new Exit_Checker(*this->command_line);
 		break;
 	
 	default:
@@ -60,48 +59,42 @@ void backup::Process::command_switch()
 	switch (this->command_line->get_work())
 	{
 	case instruction::WORK::ADD:
-		this->command = new Add_Command(this->main_argv_zero,
+		this->command = new Add_Command(this->running_path,
 										this->command_line->get_root(),
 										this->command_line->get_destination());
 		break;
 
 	case instruction::WORK::DELETE:
-		this->command = new Add_Command(this->main_argv_zero,
-			this->command_line->get_root(),
-			this->command_line->get_destination());
+		this->command = new Delete_Command(this->running_path,
+										   this->command_line->get_pos());
 		break;
 
 	case instruction::WORK::PRINT:
-		this->command = new Print_Command(this->main_argv_zero);
+		this->command = new Print_Command(this->running_path);
 		break;
 
 	case instruction::WORK::SYNC:
-		this->command = new Sync_Command(this->main_argv_zero);
+		this->command = new Sync_Command(this->running_path);
 		break;
 
 	case instruction::WORK::HELP:
-		this->command = new Help_Command(this->main_argv_zero);
+		this->command = new Help_Command(this->running_path);
 		break;
 
 	case instruction::WORK::EXIT:
-		this->command = new Exit_Command(this->main_argv_zero);
+		this->command = new Exit_Command(this->running_path);
 		break;
 	}
 }
 
-void backup::Process::run()
+void backup::Process::run(int argc)
 {
-	while(true)
+	if (!check_instruction())
 	{
-		input_commnad();
-
-		if (!check_command_line())
-		{
-			cout << "[알림] >> 잘못된 명령어 입니다." << endl;
-			continue;
-		}
-		
-		command_switch();
-		command->excute();
+		cout << "[알림] >> " << this->checker->what() << endl;
+		return;
 	}
+
+	command_switch();
+	command->excute();	
 }
