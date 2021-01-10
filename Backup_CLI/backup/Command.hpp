@@ -2,7 +2,6 @@
 #define COMMAND_HPP
 
 #include "Core.hpp"
-// #include "Error_Code.hpp"
 
 namespace bfs = boost::filesystem;
 namespace backup
@@ -11,10 +10,11 @@ namespace backup
 class Abstract_Command
 {
 protected:
-    bfs::path running_path; // 프로그램 실행 위치 경로
+    bfs::path running_path;                     // 프로그램 실행 위치 경로
+    backup::core::Path_Manager* path_manager;   // 기본 생성자 만들기 싫어서.. 포인터로..
 
 public:
-    Abstract_Command(bfs::path running_path) : running_path(running_path) {};
+    Abstract_Command(bfs::path running_path);
     
     virtual void excute() = 0;
 };
@@ -26,15 +26,21 @@ private:
     bfs::path destination; // 동기화 목적지 경로
 
 public:
-    Add_Command(bfs::path running_path, bfs::path source, bfs::path destination);
+    Add_Command(bfs::path running_path, bfs::path root, bfs::path destination)
+        : Abstract_Command(running_path), root(root), destination(destination) {};
 
     virtual void excute() override;
 };
 
 class Delete_Command :public Abstract_Command
 {
+private:
+    int index;
+    int delte_mode;
+
 public:
-    Delete_Command(bfs::path running_path) : Abstract_Command(running_path){}
+    Delete_Command(bfs::path running_path, int index)
+        : Abstract_Command(running_path), index(index){}
 
     virtual void excute() override;
 };
