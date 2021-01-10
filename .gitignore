@@ -8,3 +8,6 @@
 /.vs
 /Debug
 /Backup_CLI/Debug
+
+## vscode folder
+/.vscode
