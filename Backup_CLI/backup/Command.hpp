@@ -69,15 +69,6 @@ public:
 
     virtual void excute() override;
 };
-
-// TODO 필요 없는 클래스 삭제 예정
-class Exit_Command :public Abstract_Command
-{
-public:
-    Exit_Command(bfs::path running_path) : Abstract_Command(running_path) {}
-
-    virtual void excute() override;
-};
 } // !namespace backup
 
 #endif // !COMMAND_HPP
