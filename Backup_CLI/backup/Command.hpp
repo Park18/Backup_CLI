@@ -24,10 +24,11 @@ class Add_Command :public Abstract_Command
 private:
     bfs::path root;      // 동기화 시작 경로
     bfs::path destination; // 동기화 목적지 경로
+    int index;
 
 public:
-    Add_Command(bfs::path running_path, bfs::path root, bfs::path destination)
-        : Abstract_Command(running_path), root(root), destination(destination) {};
+    Add_Command(bfs::path running_path, bfs::path root, bfs::path destination, int index)
+        : Abstract_Command(running_path), root(root), destination(destination), index(index) {};
 
     virtual void excute() override;
 };
@@ -69,6 +70,7 @@ public:
     virtual void excute() override;
 };
 
+// TODO 필요 없는 클래스 삭제 예정
 class Exit_Command :public Abstract_Command
 {
 public:
