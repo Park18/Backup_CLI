@@ -18,31 +18,15 @@ bool backup::instruction::Abstract_Checker::has_option(std::string option)
         this->command_line.end();
 }
 
-bool backup::instruction::Abstract_Checker::check_path(std::string path_option)
-{
-    auto option_path = find(this->command_line.begin(), this->command_line.end(), path_option) + 1;
-    bfs::path directory = *option_path;
-    return bfs::is_directory(directory.generic_path());
-}
-
 backup::instruction::Add_Checker::Add_Checker(Command_Line command_line) : Abstract_Checker(command_line)
 {
     this->work = WORK::ADD;
 }
 
 bool backup::instruction::Add_Checker::check_option()
-{
-    bool result = (has_option(OPTION_ROOT) && check_path(OPTION_ROOT)) &&
-        (has_option(OPTION_DESTINATION) && check_path(OPTION_DESTINATION));
-
-    // TODO 인덱스 처리할 것인가/
-    if (has_option(OPTION_POS))
-        result;
-
-    return result;
-        
-    //return (has_option(OPTION_ROOT) && has_option(OPTION_DESTINATION)) ||
-    //    (has_option(OPTION_ROOT) && has_option(OPTION_DESTINATION) && has_option(OPTION_POS));
+{       
+    return (has_option(OPTION_ROOT) && has_option(OPTION_DESTINATION)) ||
+        (has_option(OPTION_ROOT) && has_option(OPTION_DESTINATION) && has_option(OPTION_POS));
 }
 
 backup::instruction::Delete_Checker::Delete_Checker(Command_Line command_line) : Abstract_Checker(command_line)
@@ -52,7 +36,6 @@ backup::instruction::Delete_Checker::Delete_Checker(Command_Line command_line) :
 
 bool backup::instruction::Delete_Checker::check_option()
 {
-    // TODO 인덱스 처리할 것인가?
     return has_option(OPTION_ALL) || has_option(OPTION_POS);
 }
 

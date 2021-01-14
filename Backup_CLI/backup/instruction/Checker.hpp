@@ -25,7 +25,6 @@ public:
 	bool check_work();
 	virtual bool check_option() = 0;
 	bool has_option(std::string option);
-	bool check_path(std::string path_option);
 };
 
 class Add_Checker : public Abstract_Checker
