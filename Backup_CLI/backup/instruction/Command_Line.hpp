@@ -63,7 +63,7 @@ public:
 	WORK get_work();
 	bfs::path get_root();
 	bfs::path get_destination();
-	int get_pos();
+	int get_index();
 
 	// command line(vector)
 	std::vector<std::string>::iterator begin();

@@ -71,7 +71,7 @@ bfs::path backup::instruction::Command_Line::get_destination()
 	return bfs::path(*destination);
 }
 
-int backup::instruction::Command_Line::get_pos()
+int backup::instruction::Command_Line::get_index()
 {
 	// 옵션 P를 찾지 못했을 때 -1을 반환해야 하는데
 	// find() + 1 로 계산할 경우 에러가 발생함
