@@ -61,12 +61,13 @@ void backup::Process::command_switch()
 	case instruction::WORK::ADD:
 		this->command = new Add_Command(this->running_path,
 										this->command_line->get_root(),
-										this->command_line->get_destination());
+										this->command_line->get_destination(),
+										this->command_line->get_index());
 		break;
 
 	case instruction::WORK::DELETE:
 		this->command = new Delete_Command(this->running_path,
-										   this->command_line->get_pos());
+										   this->command_line->get_index());
 		break;
 
 	case instruction::WORK::PRINT:
@@ -80,21 +81,24 @@ void backup::Process::command_switch()
 	case instruction::WORK::HELP:
 		this->command = new Help_Command(this->running_path);
 		break;
-
-	case instruction::WORK::EXIT:
-		this->command = new Exit_Command(this->running_path);
-		break;
 	}
 }
 
 void backup::Process::run(int argc)
 {
-	if (!check_instruction())
+	try
 	{
-		cout << "[알림] >> " << this->checker->what() << endl;
-		return;
-	}
+		if (!check_instruction())
+		{
+			cout << "[알림] >> 잘못된 명령어 입니다." << endl;
+			return;
+		}
 
-	command_switch();
-	command->excute();	
+		command_switch();
+		command->excute();	
+	}
+	catch (const backup::core::error_info& e)
+	{
+		cout << "[알림] >> " << e.what() << endl;
+	}
 }
