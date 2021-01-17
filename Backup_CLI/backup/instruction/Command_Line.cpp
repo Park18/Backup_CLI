@@ -61,14 +61,14 @@ bfs::path backup::instruction::Command_Line::get_root()
 {
 	auto root = find(this->command_line.begin(), this->command_line.end(), OPTION_ROOT) + 1;
 
-	return bfs::path(*root);
+	return bfs::path(*root).generic_path();
 }
 
 bfs::path backup::instruction::Command_Line::get_destination()
 {
 	auto destination = find(this->command_line.begin(), this->command_line.end(), OPTION_DESTINATION) + 1;
 
-	return bfs::path(*destination);
+	return bfs::path(*destination).generic_path();
 }
 
 int backup::instruction::Command_Line::get_index()
