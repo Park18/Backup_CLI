@@ -35,6 +35,12 @@ bool backup::core::Path_Manager::management_file_empty()
 
 void backup::core::Path_Manager::push_back(bfs::path root, bfs::path destination)
 {
+	if (!bfs::is_directory(root))
+		throw error_info("경로 오류", root.generic_path());
+
+	if (!bfs::is_directory(destination))
+		throw error_info("경로 오류", destination.generic_path());
+
 	this->path_list.push_back(root.generic_string() + "-" + destination.generic_string());
 
 	list_to_file();
@@ -42,6 +48,9 @@ void backup::core::Path_Manager::push_back(bfs::path root, bfs::path destination
 
 void backup::core::Path_Manager::insert(bfs::path root, bfs::path destination, int index)
 {
+	if (0 < index && index > this->path_list.size())
+		throw error_info("인덱스 오류", this->path_list.size());
+
 	this->path_list.insert(this->path_list.begin() + index, 
 		root.generic_string() + "-" + destination.generic_string());
 
@@ -50,16 +59,11 @@ void backup::core::Path_Manager::insert(bfs::path root, bfs::path destination, i
 
 void backup::core::Path_Manager::erase(int index)
 {
-	try
-	{
-		this->path_list.erase(this->path_list.begin() + index);
-		list_to_file();
-	}
-	catch (const std::exception& e)
-	{
-		// TODO 예외 처리(index 범위)
-		cout << e.what() << endl;
-	}
+	if (0 < index && index > this->path_list.size())
+		throw error_info("인덱스 오류", this->path_list.size());
+
+	this->path_list.erase(this->path_list.begin() + index);
+	list_to_file();
 }
 
 void backup::core::Path_Manager::clear()

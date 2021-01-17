@@ -6,6 +6,7 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include "error_info.hpp"
 
 #define MANAGEMENT_FILE "dir_path/path.txt"
 
