@@ -8,6 +8,8 @@
 /.vs
 /Debug
 /Backup_CLI/Debug
+/Release
+/Backup_CLI/Release
 
 ## vscode folder
 /.vscode

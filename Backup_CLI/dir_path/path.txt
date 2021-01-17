@@ -1,5 +1,2 @@
-D:/Code/my_skill-D:/Backup
-D:/Code/my_skill-D:/Backup
-D:/Code/my_skill-D:/Backup
-D:/Code/my_skill-D:/Backup
-D:/Code/my_skill-D:/Backup
+c:/a-c:/backup
+
